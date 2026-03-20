@@ -87,6 +87,9 @@ func TextToDecimal(text arg) : decimal
   end if
   return result
 end func
+定義　関数　テキストを小数にする（テキスト　変数１）　：　小数
+  返す　TextToDecimal(変数１)
+おわり
 
 func DecimalToText(decimal arg) : text
   text result
@@ -131,4 +134,6 @@ func DecimalToText(decimal arg) : text
   end if
   return result
 end func
-
+定義　関数　小数をテキストにする（小数　変数１）　：　テキスト
+  返す　DecimalText(変数１)
+おわり
