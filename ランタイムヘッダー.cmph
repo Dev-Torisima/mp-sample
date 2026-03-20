@@ -36,5 +36,5 @@ def func NumToText(num _num) : text
 def func CharToText(char _char) : text
 定義　関数　文字をテキストにする（文字　変数１）　：　テキスト
 
-def func len(array _array) : num
-定義　関数　要素数（配列 変数１）　：　整数
+def func random(num min, num max) : num
+定義　関数　ランダム（整数　最小、整数　最大）　：　整数
