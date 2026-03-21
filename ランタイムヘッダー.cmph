@@ -41,7 +41,13 @@ def func NumToText(num _num) : text
 def func CharToText(char _char) : text
 定義　関数　文字をテキストにする（文字　変数１）　：　テキスト
 
-def func TextToChar(text _text) : char
+func TextToChar(text _text) : char
+  if(len(_text) is 0)
+    return '\0'
+  else
+    return _text[0]
+  end if
+end func
 定義　関数　テキストを文字にする（テキスト　変数１）　：　文字
 
 func TextToDecimal(text arg) : decimal
