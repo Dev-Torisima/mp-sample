@@ -1,0 +1,43 @@
+func DecimalToText(decimal arg) : text
+  text result
+  if(IsNaN(arg))
+    result = "NaN"
+  elif(arg == PosInfinity)
+    result = "∞"
+  elif(arg == NegInfinity)
+    result = "-∞"
+  else
+    bool minus = (arg <= NegZero)
+    if(minus)
+        arg = -arg
+    end if
+    num int = DecimalToNum(arg)
+    result = NumToText(int)
+    arg -= NumToDecimal(int)
+    if(arg <= NegZero)
+        arg = PosZero
+    end if
+  
+    if(arg != PosZero & arg != NegZero)
+      result += "."
+      
+      loop(16)
+        arg *= 10.
+        int = DecimalToNum(arg)
+        result += NumToText(int)
+        arg -= NumToDecimal(int)
+        if(arg <= NegZero)
+            arg = PosZero
+        end if
+        if(arg == PosZero | arg == NegZero)
+          break
+        end if
+      end loop
+    end if
+
+    if(minus)
+        result = "-" + result
+    end if
+  end if
+  return result
+end func
