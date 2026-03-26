@@ -20,7 +20,7 @@ func TextToDecimal(text arg) : decimal
             h += 1
         elif(arg[i] >= '0' & arg[i] <= '9')
             if(point)
-                if(isNaN(result))
+                if(IsNaN(result))
                     result = PosZero
                 end if
                 result *= 10.
@@ -47,7 +47,7 @@ end func
 
 func DecimalToText(decimal arg) : text
   text result
-  if(isNaN(arg))
+  if(IsNaN(arg))
     result = "NaN"
   elif(arg == PosInfinity)
     result = "∞"
