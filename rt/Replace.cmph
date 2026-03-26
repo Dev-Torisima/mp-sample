@@ -20,7 +20,7 @@ func ReplaceText(text source, text before, text after) : text
     text result = text(p)
     num q
     loop(p)
-        q = IndexOfText(source, before, j)
+        q = SearchText(source, before, j)
         if (q < 0)
             loop(p - i)
                 result[i] = source[j]
