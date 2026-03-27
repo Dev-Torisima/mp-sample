@@ -19,7 +19,7 @@ func ReplaceText(text source, text before, text after) : text
     num j
     text result = text(p)
     num q
-    loop(p)
+    loop
         q = SearchText(source, before, j)
         if (q < 0)
             loop(p - i)
@@ -27,9 +27,11 @@ func ReplaceText(text source, text before, text after) : text
                 i += 1
                 j += 1
             end loop
+
+            break
         end if
 
-        loop(q - i)
+        loop(q - j)
             result[i] = source[j]
             i += 1
             j += 1
