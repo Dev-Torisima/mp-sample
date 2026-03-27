@@ -1,0 +1,19 @@
+func RemoveChar(char[] source, char target) : char[]
+    char[] result = char[](len(source) - CountChar(source, target))
+    num i
+    num j
+
+    loop(len(source))
+        if (source[i] != target)
+            result[j] = source[i]
+            j += 1
+        end if
+        i += 1
+    end loop
+
+    return result
+end func
+
+func RemoveText(text source, text target) : text
+    return ReplaceText(source, target, "")
+end func
