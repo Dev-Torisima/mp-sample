@@ -1,0 +1,10 @@
+func ReplaceItem(char[] source, char before, char after) : char[]
+    num i
+    loop(len(source))
+        if (source[i] == before)
+            source[i] = after
+        end if
+        i += 1
+    end loop
+    return source
+end func
