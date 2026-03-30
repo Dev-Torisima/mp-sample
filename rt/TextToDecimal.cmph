@@ -1,3 +1,4 @@
+//Easy convert
 //簡易的な変換を実装するために正確な変換はできません
 func TextToDecimal(text arg) : decimal
   decimal result = NaN
