@@ -1,0 +1,3 @@
+func RemoveText(text source, text target) : text
+    return ReplaceText(source, target, "")
+end func
