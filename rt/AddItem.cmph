@@ -1,0 +1,19 @@
+
+func AddItem(char[] array, char value, num index) : char[]
+    var result = char[](len(array) + 1)
+    num i = 0
+    num j = 0
+
+    loop(len(array) + 1)
+        if (i == index)
+            result[i] = value
+        else
+            result[i] = array[j]
+            j += 1
+        end if
+
+        i += 1
+    end loop
+
+    return result
+end func
