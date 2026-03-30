@@ -1,4 +1,5 @@
-
+//This represents by using "char" type.
+//ここでは「char」型で実装
 func AddItem(char[] array, char value, num index) : char[]
     var result = char[](len(array) + 1)
     num i = 0
