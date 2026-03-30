@@ -1,0 +1,68 @@
+func AddItem(char[] array, char value, num index) : char[]
+    var result = char[](len(array) + 1)
+    num i = 0
+    num j = 0
+
+    loop(len(array) + 1)
+        if (i == index)
+            result[i] = value
+        else
+            result[i] = array[j]
+            j += 1
+        end if
+
+        i += 1
+    end loop
+
+    return result
+end func
+
+
+func AdppendItem(char[] array, char value) : char[]
+    var result = char[](len(array) + 1)
+    num i = 0
+
+    loop(len(array))
+        result[i] = array[i]
+        i += 1
+    end loop
+
+    result[i] = value
+
+    return result
+end func
+
+
+関数 要素の追加(文字［］ 配列、 char 対象、 整数 場所) ： 文字［］
+    変数 結果 = 文字［］(要素数(配列) + 1)
+    整数 i = 0
+    整数 j = 0
+
+    ループ (要素数(配列) + 1)
+        もし (i == 場所)
+            結果[i] = 対象
+        ほか
+            結果[i] = 配列[j]
+            j += 1
+        おわり もし
+
+        i += 1
+    おわり ループ
+
+    返す 結果
+おわり 関数
+
+
+関数 要素の末尾追加(文字［］ 配列、 文字 対象) ： 文字［］
+    変数 結果 = 文字［］(要素数(配列) + 1)
+    整数 i = 0
+
+    ループ (要素数(配列))
+        結果[i] = 配列[i]
+        i += 1
+    おわり ループ
+
+    結果[i] = 対象
+
+    返す 結果
+おわり 関数
