@@ -1,0 +1,15 @@
+//This represents by using "char" type.
+//ここでは「char」型で実装
+func AdppendItem(char[] array, char value) : char[]
+    var result = char[](len(array) + 1)
+    num i = 0
+
+    loop(len(array))
+        result[i] = array[i]
+        i += 1
+    end loop
+
+    result[i] = value
+
+    return result
+end func
