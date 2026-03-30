@@ -1,0 +1,13 @@
+func CountText(text source, text value) : num
+    num c = 0
+    num i = 0
+    loop
+        i = SearchText(source, value, i)
+        if (i < 0)
+            break
+        end if
+        c += 1
+        i += len(value)
+    end loop
+    return c
+end func
