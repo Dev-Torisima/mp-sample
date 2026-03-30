@@ -1,0 +1,39 @@
+func ReplaceText(text source, text before, text after) : text
+    num c = CountText(source, before)
+    num p = len(after) - len(before)
+    p *= c
+    p += len(source)
+    num i
+    num j
+    text result = text(p)
+    num q
+    loop
+        q = SearchText(source, before, j)
+        if (q < 0)
+            loop(p - i)
+                result[i] = source[j]
+                i += 1
+                j += 1
+            end loop
+
+            break
+        end if
+
+        loop(q - j)
+            result[i] = source[j]
+            i += 1
+            j += 1
+        end loop
+
+        c = 0
+        loop(len(after))
+            result[i] = after[c]
+            i += 1
+            c += 1
+        end loop
+
+        j += len(before)
+    end loop
+
+    return result
+end func
