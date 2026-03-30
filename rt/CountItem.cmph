@@ -1,0 +1,11 @@
+func CountChar(char[] source, char value) : num
+    num c = 0
+    num i = 0
+    loop(len(source))
+        if (source[i] == value)
+            c += 1
+        end if
+        i += 1
+    end loop
+    return c
+end func
