@@ -1,3 +1,5 @@
+//Easy convert
+//簡易的な変換を実装します
 func DecimalToText(decimal arg) : text
   text result
   if(IsNaN(arg))
