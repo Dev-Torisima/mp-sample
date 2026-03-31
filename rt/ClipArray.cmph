@@ -1,0 +1,13 @@
+func ClipArray(char[] array, num start, num size) : char[]
+    char[] result = []
+    if (size > 0)
+        result = char[](size)
+        num i = 0
+        loop(size)
+            result[i] = array[start + i]
+            i += 1
+        end loop
+    end if
+
+    return result
+end func
