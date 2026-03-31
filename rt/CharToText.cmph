@@ -1,0 +1,3 @@
+func CharToText(char item) : text
+    return [ item ]
+end func
