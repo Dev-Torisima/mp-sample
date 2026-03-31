@@ -1,3 +1,5 @@
+//This represents by using "char" type.
+//ここでは「char」型で実装
 func ReverseArray(char[] array) : char[]
     var result = char[](len(array))
     num i = 0
