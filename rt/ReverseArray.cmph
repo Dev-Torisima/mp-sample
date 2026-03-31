@@ -1,0 +1,12 @@
+func ReverseArray(char[] array) : char[]
+    var result = char[](len(array))
+    num i = 0
+    num j = len(array) - 1
+    loop(len(array))
+        result[i] = array[j]
+        i += 1
+        j -= 1
+    end loop
+
+    return result
+end func
