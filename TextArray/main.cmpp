@@ -1,0 +1,154 @@
+def char TextArray_MarkChar = '\U000F0000'//'\0'//'\U000F0000'
+def text TextArray_MarkText = "\U000F0000"//"\0"//"\U000F0000"
+
+def text TextArray_Default = ""
+
+func TextArray_Length(text array) : num
+    return CountItem(array, TextArray_MarkChar)
+end func
+
+func TextArray_AppendItem(text array, text item) : text
+    return array + item + TextArray_MarkText
+end func
+
+func TextArray_AddItem(text array, text item, num index) : text
+    num i
+    num j
+    if (index <= 0)
+        array = item + TextArray_MarkText + array
+    else
+        loop(len(array))
+            if (array[i] == TextArray_MarkChar)
+                j += 1
+                if (index == j)
+                    i += 1
+                    array = ClipArray(array, 0, i) + item + TextArray_MarkText + ClipArray(array, i, len(array) - i)
+                    break
+                end if
+            end if
+            i += 1
+        end loop
+    end if
+    return array
+end func
+
+func TextArray_CountItem(text array, text item) : num
+    num i = CountText(array, TextArray_MarkText + item + TextArray_MarkText)
+    if (SearchText(array, item + TextArray_MarkText, 0) == 0)
+        i += 1
+    end if
+    return i
+end func
+
+func TextArray_SearchItem(text array, text item, num start) : num
+    num i
+    num j
+    if (start > 0)
+        loop(len(array))
+            if (array[i] == TextArray_MarkChar)
+                j += 1
+                if (start == j)
+                    i += 1
+                    break
+                end if
+            end if
+            i += 1
+        end loop
+    end if
+    array = TextArray_MarkText + array
+    start = SearchText(array, TextArray_MarkText + item + TextArray_MarkText, i)
+    j = -1
+    if (start != -1)
+        i = 0
+        loop(len(array))
+            if (array[i] == TextArray_MarkChar)
+                j += 1
+            end if
+            if (i == start)
+                break
+            end if
+            i += 1
+        end loop
+    end if
+
+    return j
+end func
+
+func TextArray_GetItem(text array, num index) : text
+    num i
+    num j
+    num s
+    text val
+    loop(len(array))
+        if (array[i] == TextArray_MarkChar)
+            if (index == j)
+                val = ClipArray(array, s, i - s)
+                break
+            end if
+            j += 1
+            s = i + 1
+        end if
+        i += 1
+    end loop
+    return val
+end func
+
+func TextArray_SetItem(text array, num index, text value) : text
+    num i
+    num j
+    num s
+    text val
+    bool b = true
+    loop(len(array))
+        if (array[i] == TextArray_MarkChar)
+            if (index == j)
+                b = !b
+                val = ClipArray(array, 0, s) + value + TextArray_MarkText + ClipArray(array, i + 1, len(array) - 1 - i)
+                break
+            end if
+            j += 1
+            s = i + 1
+        end if
+        i += 1
+    end loop
+    if (b)
+        val = array
+    end if
+    return val
+end func
+
+func TextArray_ReplaceItem(text array, text before, text after) : text
+    array = TextArray_MarkText + array
+    array = ReplaceText(array, TextArray_MarkText + before + TextArray_MarkText, TextArray_MarkText + after + TextArray_MarkText)
+    array = ClipArray(array, 1, len(array) - 1)
+    return array
+end func
+
+func TextArray_RemoveItem(text array, text target) : text
+    array = TextArray_MarkText + array
+    array = ReplaceText(array, TextArray_MarkText + target + TextArray_MarkText, TextArray_MarkText)
+    array = ClipArray(array, 1, len(array) - 1)
+    return array
+end func
+
+func TextArray_DeleteItem(text array, num index) : text
+    num i
+    num j
+    num s
+    loop(len(array))
+        if (array[i] == TextArray_MarkChar)
+            if (index == j)
+                array = ClipArray(array, 0, s) + ClipArray(array, i + 1, len(array) - i - 1)
+                break
+            end if
+            j += 1
+            s = i + 1
+        end if
+        i += 1
+    end loop
+    return array
+end func
+
+func TextArray_SplitText(text value, text split) : text
+    return ReplaceText(value, split, TextArray_MarkText)
+end func
