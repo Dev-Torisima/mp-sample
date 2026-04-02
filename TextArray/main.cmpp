@@ -1,5 +1,5 @@
-def char TextArray_MarkChar = '\U000F0000'//'\0'//'\U000F0000'
-def text TextArray_MarkText = "\U000F0000"//"\0"//"\U000F0000"
+def char TextArray_MarkChar = '\U000F0000'
+def text TextArray_MarkText = "\U000F0000"
 
 def text TextArray_Default = ""
 
