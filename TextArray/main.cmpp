@@ -152,3 +152,55 @@ end func
 func TextArray_SplitText(text value, text split) : text
     return ReplaceText(value, split, TextArray_MarkText)
 end func
+
+func TextArray_ToText(text array) : text
+    array = ClipArray(array, 0, len(array) - 1)
+    return "[\"" + ReplaceText(array, TextArray_MarkText, "\",\"") + "\"]"
+end func
+
+func TextArray_ReverseArray(text array) : text
+    text result
+    num i = TextArray_Length(array) - 1
+    loop(i + 1)
+        result = TextArray_AppendItem(result, TextArray_GetItem(array, i))
+        i -= 1
+    end loop
+    return result
+end func
+
+func TextArray_ClipArray(text array, num index, num length) : text
+    num i
+    num j
+    num s
+    num f
+    if (index > 0)
+        s = len(array)
+        loop(len(array))
+            if (array[i] == TextArray_MarkChar)
+                j += 1
+                if (j == index)
+                    i += 1
+                    s = i
+                    break
+                end if
+            end if
+            i += 1
+        end loop
+    end if
+    index += length
+    if (index > 0)
+        loop(len(array) - i)
+            if (array[i] == TextArray_MarkChar)
+                j += 1
+                if (j == index)
+                    i += 1
+                    break
+                end if
+            end if
+            i += 1
+        end loop
+    end if
+
+    array = ClipArray(array, s, i - s)
+    return array
+end func
