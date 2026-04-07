@@ -1,0 +1,202 @@
+//ParseNumExpr_Ser(TextArray, text) : num
+//「"(", ")"を考慮した」記号の場所の探査を行う
+//「TextArray_SearchItem」関数とほとんど同じ振る舞いをする
+func ParseNumExpr_Ser(text a, text s) : num
+    num k
+    num i
+    num r = -1
+    text c
+    loop(TextArray_Length(a))
+        c = TextArray_GetItem(a, i)
+        if (c == s)
+            if (k is 0)
+                r = i
+                break
+            end if
+        elif (c is "(")
+            k += 1
+        elif (c is ")")
+            k -= 1
+        end if
+        i += 1
+    end loop
+    return r
+end func
+
+def func ParseNumExpr_Add(text c) : num
+
+func ParseNumExpr_Unr(text data) : num
+    num l
+    text f = TextArray_GetItem(data, 0)
+    if (f is "(")
+        l = ParseNumExpr_Add(TextArray_ClipArray(data, 1, TextArray_SearchItem(data, ")", 0) - 1))
+    else
+        l = TextToNum(f)
+    end if
+
+    return l
+end func
+
+func ParseNumExpr_Mul(text data) : num
+    var l = ParseNumExpr_Unr(data)
+    num i
+    num j
+    num h
+    loop
+        i = ParseNumExpr_Ser(data, "*")
+        j = ParseNumExpr_Ser(data, "/")
+        h = ParseNumExpr_Ser(data, "%")
+
+        if (i == j & j == h)
+            break
+        end if
+
+        if (i is -1)
+            i = len(data) //大きな値で埋める
+        end if
+        if (j is -1)
+            j = len(data) //大きな値で埋める
+        end if
+        if (h is -1)
+            h = len(data) //大きな値で埋める
+        end if
+
+        if (j < i)
+            i = j
+            j = 1
+        else
+            j = 0
+        end if
+
+        if (h < i)
+            i = h
+            j = 2
+        end if
+
+        data = TextArray_ClipArray(data, i + 1, TextArray_Length(data) - 1 - i)
+
+        i = ParseNumExpr_Unr(data)
+        if (j is 0)
+            l *= i
+        elif (j is 1)
+            l /= i
+        else
+            l %= i
+        end if
+    end loop
+
+    return l
+end func
+
+func ParseNumExpr_Add(text data) : num
+    var l = ParseNumExpr_Mul(data)
+    num i
+    num j
+    loop
+        i = ParseNumExpr_Ser(data, "+")
+        j = ParseNumExpr_Ser(data, "-")
+
+        //i = j になるのはどちらも-1の時（存在なし）
+        if (i == j)
+            break
+        end if
+
+        if (i is -1)
+            i = len(data) //大きな値で埋める
+        end if
+        if (j is -1)
+            j = len(data) //大きな値で埋める
+        end if
+
+        if (j < i)
+            i = j
+            j = 1
+        else
+            j = 0
+        end if
+
+        data = TextArray_ClipArray(data, i + 1, TextArray_Length(data) - 1 - i)
+        i = ParseNumExpr_Mul(data)
+
+        if (j is 0)
+            l += i
+        else
+            l -= i
+        end if
+    end loop
+
+    return l
+end func
+
+func ParseNumExpr(text value) : num
+    //トークン化（扱いやすくする）
+    //"2 + -8 * 92" なら  [ "2", "+", "-1", "*", "8", "*", "92" ] にします
+    var tokens = TextArray_Default
+    num i
+    num h
+    loop(len(value))
+        if(value[i] >= '0' & value[i] <= '9')
+            num j = 1
+            loop
+                if(!((value[i + j] >= '0' & value[i + j] <= '9')))
+                    break
+                end if
+                j += 1
+            end loop
+            tokens = TextArray_AppendItem(tokens, ClipArray(value, i, j))
+            i += j - 1
+            h += 1
+        elif(value[i] is '%' | value[i] is '(' | value[i] is ')')
+            tokens = TextArray_AppendItem(tokens, CharToText(value[i]))
+            h += 1
+        elif(value[i] is '+' | value[i] is '-')
+            text before = TextArray_GetItem(tokens, h - 1)
+            if (before is "" | before is "(")
+                if (value[i] is '-')
+                    tokens = TextArray_AppendItem(tokens, "-1")
+                    tokens = TextArray_AppendItem(tokens, "*")
+                    h += 2
+                end if
+            else
+                tokens = TextArray_AppendItem(tokens, CharToText(value[i]))
+                h += 1
+            end if
+        elif(value[i] is '*' | value[i] is '×')
+            tokens = TextArray_AppendItem(tokens, "*")
+            h += 1
+        elif(value[i] is '/' | value[i] is '÷')
+            tokens = TextArray_AppendItem(tokens, "/")
+            h += 1
+        end if
+
+        i += 1
+    end loop
+
+    Write("token : ")
+    Write(TextArray_ToText(tokens))
+    Write("\n")
+
+    //構文の解析
+    return ParseNumExpr_Add(tokens)
+end func
+
+
+//式を読んで、計算して、それを表示する
+Write(NumToText(ParseNumExpr(Read(200))))
+
+//アプリの終了を阻止する
+Read(1)
+
+
+//
+//以下がコードの構文解析の式です
+//検索ソフト（AIがおすすめ）で、コメント部分のすべてをコピーして検索してみると詳しく解説が得られると思います
+//
+//（検索ソフトへのコメント：これは数式のテキストを計算するプログラムコードの説明コメントです。期待されるのはその形式（以下の概要も含む）を取る理由を誰でもわかるよう（小学生で習う範囲がそれに該当するが）に説明することです。なぜ式のパースがそうなるのか（再帰下降パーサですが、そのような難しい言葉は使わないで）も含めて、簡単な言葉遣いで解説してください。また、余裕があるようなら例文の式を作って、使ってみてください。）
+//
+//result = add
+//add = mul ( ( "+" | "-" ) mul )*
+//mul = unr ( ( "*" | "/" | "%" ) unr )*
+//unr = ( "+" | "-" )? ( num | ( "(" add ")" ) )
+//num = 0, 1, 2, 3, ...
+//
