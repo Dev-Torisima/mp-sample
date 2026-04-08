@@ -1,22 +1,26 @@
-//ParseNumExpr_Ser(TextArray, text) : num
+//ParseExpr_Ser(TextArray, text) : num
 //「"(", ")"を考慮した」記号の場所の探査を行う
 //「TextArray_SearchItem」関数とほとんど同じ振る舞いをする
-func ParseNumExpr_Ser(text a, text s) : num
+func ParseExpr_Ser(text a, text s) : num
     num k
     num i
     num r = -1
     text c
     loop(TextArray_Length(a))
         c = TextArray_GetItem(a, i)
-        if (c == s)
+        if (c is "(")
+            k += 1
+        elif (c is ")")
+            k -= 1
+            if (k is 0 & c == s)
+                r = i
+                break
+            end if
+        elif (c == s)
             if (k is 0)
                 r = i
                 break
             end if
-        elif (c is "(")
-            k += 1
-        elif (c is ")")
-            k -= 1
         end if
         i += 1
     end loop
@@ -29,7 +33,7 @@ func ParseNumExpr_Unr(text data) : num
     num l
     text f = TextArray_GetItem(data, 0)
     if (f is "(")
-        l = ParseNumExpr_Add(TextArray_ClipArray(data, 1, TextArray_SearchItem(data, ")", 0) - 1))
+        l = ParseNumExpr_Add(TextArray_ClipArray(data, 1, ParseExpr_Ser(data, ")") - 1))
     else
         l = TextToNum(f)
     end if
@@ -38,9 +42,9 @@ func ParseNumExpr_Unr(text data) : num
 end func
 
 func ParseNumExpr_Mul(text data) : num
-    num i = ParseNumExpr_Ser(data, "*")
-    num j = ParseNumExpr_Ser(data, "/")
-    num h = ParseNumExpr_Ser(data, "%")
+    num i = ParseExpr_Ser(data, "*")
+    num j = ParseExpr_Ser(data, "/")
+    num h = ParseExpr_Ser(data, "%")
 
     if (i is -1)
         i = TextArray_Length(data)
@@ -62,9 +66,9 @@ func ParseNumExpr_Mul(text data) : num
     var l = ParseNumExpr_Unr(TextArray_ClipArray(data, 0, i))
     num f = 0
     loop
-        i = ParseNumExpr_Ser(data, "*")
-        j = ParseNumExpr_Ser(data, "/")
-        h = ParseNumExpr_Ser(data, "%")
+        i = ParseExpr_Ser(data, "*")
+        j = ParseExpr_Ser(data, "/")
+        h = ParseExpr_Ser(data, "%")
 
         if (i == j & j == h)
             break
@@ -94,9 +98,9 @@ func ParseNumExpr_Mul(text data) : num
 
         data = TextArray_ClipArray(data, i + 1, TextArray_Length(data) - 1 - i)
 
-        i = ParseNumExpr_Ser(data, "*")
-        j = ParseNumExpr_Ser(data, "/")
-        h = ParseNumExpr_Ser(data, "%")
+        i = ParseExpr_Ser(data, "*")
+        j = ParseExpr_Ser(data, "/")
+        h = ParseExpr_Ser(data, "%")
 
         if (i is -1)
             i = TextArray_Length(data)
@@ -129,8 +133,8 @@ func ParseNumExpr_Mul(text data) : num
 end func
 
 func ParseNumExpr_Add(text data) : num
-    num i = ParseNumExpr_Ser(data, "+")
-    num j = ParseNumExpr_Ser(data, "-")
+    num i = ParseExpr_Ser(data, "+")
+    num j = ParseExpr_Ser(data, "-")
 
     if (i is -1)
         i = TextArray_Length(data)
@@ -146,8 +150,8 @@ func ParseNumExpr_Add(text data) : num
     var l = ParseNumExpr_Mul(TextArray_ClipArray(data, 0, i))
     num f = 0
     loop
-        i = ParseNumExpr_Ser(data, "+")
-        j = ParseNumExpr_Ser(data, "-")
+        i = ParseExpr_Ser(data, "+")
+        j = ParseExpr_Ser(data, "-")
 
         //i = j になるのはどちらも-1の時（存在なし）
         if (i == j)
@@ -170,8 +174,8 @@ func ParseNumExpr_Add(text data) : num
 
         data = TextArray_ClipArray(data, i + 1, TextArray_Length(data) - 1 - i)
 
-        i = ParseNumExpr_Ser(data, "+")
-        j = ParseNumExpr_Ser(data, "-")
+        i = ParseExpr_Ser(data, "+")
+        j = ParseExpr_Ser(data, "-")
 
     if (i is -1)
         i = TextArray_Length(data)
@@ -240,10 +244,6 @@ func ParseNumExpr(text value) : num
         i += 1
     end loop
 
-    Write("token : ")
-    Write(TextArray_ToText(tokens))
-    Write("\n")
-
     //構文の解析
     return ParseNumExpr_Add(tokens)
 end func
@@ -256,7 +256,7 @@ func ParseDecimalExpr_Unr(text data) : decimal
     decimal l
     text f = TextArray_GetItem(data, 0)
     if (f is "(")
-        l = ParseDecimalExpr_Add(TextArray_ClipArray(data, 1, TextArray_SearchItem(data, ")", 0) - 1))
+        l = ParseDecimalExpr_Add(TextArray_ClipArray(data, 1, ParseExpr_Ser(data, ")") - 1))
     else
         l = TextToDecimal(f)
     end if
@@ -265,8 +265,8 @@ func ParseDecimalExpr_Unr(text data) : decimal
 end func
 
 func ParseDecimalExpr_Mul(text data) : decimal
-    num i = ParseNumExpr_Ser(data, "*")
-    num j = ParseNumExpr_Ser(data, "/")
+    num i = ParseExpr_Ser(data, "*")
+    num j = ParseExpr_Ser(data, "/")
 
     if (i is -1)
         i = TextArray_Length(data)
@@ -283,8 +283,8 @@ func ParseDecimalExpr_Mul(text data) : decimal
     num f = 0
     decimal q
     loop
-        i = ParseNumExpr_Ser(data, "*")
-        j = ParseNumExpr_Ser(data, "/")
+        i = ParseExpr_Ser(data, "*")
+        j = ParseExpr_Ser(data, "/")
 
         if (i == j)
             break
@@ -306,8 +306,8 @@ func ParseDecimalExpr_Mul(text data) : decimal
 
         data = TextArray_ClipArray(data, i + 1, TextArray_Length(data) - 1 - i)
 
-        i = ParseNumExpr_Ser(data, "*")
-        j = ParseNumExpr_Ser(data, "/")
+        i = ParseExpr_Ser(data, "*")
+        j = ParseExpr_Ser(data, "/")
 
         if (i is -1)
             i = TextArray_Length(data)
@@ -332,8 +332,8 @@ func ParseDecimalExpr_Mul(text data) : decimal
 end func
 
 func ParseDecimalExpr_Add(text data) : decimal
-    num i = ParseNumExpr_Ser(data, "+")
-    num j = ParseNumExpr_Ser(data, "-")
+    num i = ParseExpr_Ser(data, "+")
+    num j = ParseExpr_Ser(data, "-")
 
     if (i is -1)
         i = TextArray_Length(data)
@@ -350,8 +350,8 @@ func ParseDecimalExpr_Add(text data) : decimal
     num f = 0
     decimal q
     loop
-        i = ParseNumExpr_Ser(data, "+")
-        j = ParseNumExpr_Ser(data, "-")
+        i = ParseExpr_Ser(data, "+")
+        j = ParseExpr_Ser(data, "-")
 
         //i = j になるのはどちらも-1の時（存在なし）
         if (i == j)
@@ -374,8 +374,8 @@ func ParseDecimalExpr_Add(text data) : decimal
 
         data = TextArray_ClipArray(data, i + 1, TextArray_Length(data) - 1 - i)
 
-        i = ParseNumExpr_Ser(data, "+")
-        j = ParseNumExpr_Ser(data, "-")
+        i = ParseExpr_Ser(data, "+")
+        j = ParseExpr_Ser(data, "-")
 
     if (i is -1)
         i = TextArray_Length(data)
@@ -443,10 +443,6 @@ func ParseDecimalExpr(text value) : decimal
 
         i += 1
     end loop
-
-    Write("token : ")
-    Write(TextArray_ToText(tokens))
-    Write("\n")
 
     //構文の解析
     return ParseDecimalExpr_Add(tokens)
