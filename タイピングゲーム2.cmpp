@@ -1,0 +1,144 @@
+//タイピングゲーム
+
+タイトルの設定("タイピングゲーム")
+
+テキスト 候補 = "こんにちは
+konnnitiha
+ハロー
+haro-
+家に帰る
+ienikaeru
+こんばんわ
+konnbannwa
+パソコン
+pasokonn
+えんぴつ
+ennpitu
+カッコ
+kakko
+インターネット
+innta-netto
+消しゴム
+kesigomu
+ハッシュタグ
+hassyutagu
+高等学校
+koutougakkou
+中学校
+tyuugakkou
+小学校
+syougakkou
+イースター島
+i-suta-tou
+1+1
+1+1
+お家に帰る
+outinikaeru
+見通し
+mitoosi
+山田太郎
+yamadatarou
+新幹線に乗る
+sinnkannsennninoru
+mp言語でプログラミング
+mpgenngodepuroguraminngu
+将来の夢は?
+syourainoyumeha?
+次郎系ラーメン
+ziroukeira-menn
+パソコンの起動が失敗しました
+pasokonnnokidougasippaisimasita
+小学校では挨拶を学びました
+syougakkoudehaaisatuwomanabimasita
+ファイルを間違えて消してしまいました
+hulairuwomatigaetekesitesimaimasita
+望遠鏡を投げた
+bouennkyouwonageta
+さじを投げない
+saziwonagenai
+サルは木に登る
+saruhakininoboru
+飛べない鳥
+tobenaitori
+ファイル
+hulairu
+量子コンピューター
+ryousikonnpyu-ta-
+#shorts
+#shorts
+タイムパフォーマンス
+taimupafo-mannsu
+風呂キャンセル
+hurokyannseru
+ストレート
+sutore-to
+花粉症でくしゃみ
+kahunnsyoudekusyami
+台風
+taihuu
+境界線
+kyoukaisenn
+東京都
+toukyouto
+ギターのコード
+gita-noko-do
+詳細情報はこちら
+syousaizyouhouhakotira"
+
+//
+//候補リスト.txt に 以上の内容を入れて以下を実行すると同じ動作をします
+//
+//テキスト 候補 = ファイル読み込み("候補リスト.txt")
+//
+
+変数 候補データ = テキスト配列_テキストの分割(候補, "\r\n")
+変数 候補リスト1 = テキスト配列_初期値
+変数 候補リスト2 = テキスト配列_初期値
+
+整数 w
+ループ(テキスト配列_要素数(候補データ))
+    もし (w % 2 が 0)
+        候補リスト1 = テキスト配列_要素の末尾追加(候補リスト1, テキスト配列_要素の取得(候補データ, w))
+    ほか
+        候補リスト2 = テキスト配列_要素の末尾追加(候補リスト2, テキスト配列_要素の取得(候補データ, w))
+    おわり
+    w += 1
+おわり
+
+
+整数 r
+テキスト 入力
+整数 i
+整数 t
+整数 q
+整数 f
+
+書き込む("キーを押してスタート")
+読み込む(1)
+
+ループ
+    r = ランダム(0, テキスト配列_要素数(候補リスト1) - 1)
+    書き込む(テキスト配列_要素の取得(候補リスト1, r))
+    書き込む("／")
+    書き込む(テキスト配列_要素の取得(候補リスト2, r))
+    書き込む("\n")
+    t = 時間値の取得()
+    入力 = 読み込む(100)
+
+    もし (入力 != テキスト配列_要素の取得(候補リスト2, r))
+        抜ける
+    おわり
+
+    t = 時間値の取得() - t
+    t /= 要素数(テキスト配列_要素の取得(候補リスト2, r)) * 50
+    t = 20 - t
+    もし (t < 1)
+        t = 1
+    おわり
+    q += t
+    f += 1
+おわり
+
+書き込む("失敗...\n")
+書き込む("スコア：" + 整数をテキストにする(q) + "／" + 整数をテキストにする(f*20) + "（" + 整数をテキストにする(q * 5 / f) + "%）")
+読み込む(1)
