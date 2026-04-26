@@ -150,7 +150,7 @@ func TextArray_DeleteItem(text array, num index) : text
 end func
 
 func TextArray_SplitText(text value, text split) : text
-    return ReplaceText(value, split, TextArray_MarkText)
+    return ReplaceText(value, split, TextArray_MarkText) + TextArray_MarkText
 end func
 
 func TextArray_ToText(text array) : text
