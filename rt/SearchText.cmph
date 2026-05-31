@@ -5,8 +5,8 @@ func SearchText(text s, text v, num i) : num
         i = 0
     end if
     loop(len(s) - i)
+        j = 0
         if (s[i] == v[j])
-            j = 0
             loop(len(v))
                 if (i + j >= len(s))
                     j = -1
