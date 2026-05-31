@@ -1,20 +1,25 @@
 //This represents by using "char" type.
 //ここでは「char」型で実装
 func AddItem(char[] array, char value, num index) : char[]
-    var result = char[](len(array) + 1)
-    num i = 0
-    num j = 0
+    char[] result
+    if (index < 0 | index >= len(array))
+        result = array
+    else 
+        result = char[](len(array) + 1)
+        num i
+        num j
 
-    loop(len(array) + 1)
-        if (i == index)
-            result[i] = value
-        else
-            result[i] = array[j]
-            j += 1
-        end if
+        loop(len(array) + 1)
+            if (i == index)
+                result[i] = value
+            else
+                result[i] = array[j]
+                j += 1
+            end if
 
-        i += 1
-    end loop
+            i += 1
+        end loop
+    end if
 
     return result
 end func
