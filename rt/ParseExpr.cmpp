@@ -410,7 +410,7 @@ func ParseDecimalExpr(text value) : decimal
         if(value[i] >= '0' & value[i] <= '9' | value[i] is '.')
             num j = 1
             loop
-                if(!((value[i + j] >= '0' & value[i + j] <= '9' | value[i] is '.')))
+                if(!((value[i + j] >= '0' & value[i + j] <= '9' | value[i+j] is '.')))
                     break
                 end if
                 j += 1
