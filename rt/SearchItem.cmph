@@ -1,3 +1,5 @@
+//This represents by using "char" type.
+//ここでは「char」型で実装
 func SearchItem(char[] s, char v, num i) : num
     num h = -1
     if (i < 0)
