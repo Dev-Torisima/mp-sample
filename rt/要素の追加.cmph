@@ -1,19 +1,23 @@
 //ここでは「文字」型で実装
 関数 要素の追加(文字［］ 配列、 char 対象、 整数 場所) ： 文字［］
-    変数 結果 = 文字［］(要素数(配列) + 1)
-    整数 i = 0
-    整数 j = 0
+    文字［］ result
+    if (index < 0 | index >= len(array))
+        result = array
+    else 
+        result = char[](len(array) + 1)
+        num i
+        num j
 
-    ループ (要素数(配列) + 1)
-        もし (i == 場所)
-            結果[i] = 対象
-        ほか
-            結果[i] = 配列[j]
-            j += 1
-        おわり もし
+        loop(len(array) + 1)
+            if (i == index)
+                result[i] = value
+            else
+                result[i] = array[j]
+                j += 1
+            end if
 
-        i += 1
-    おわり ループ
-
+            i += 1
+        end loop
+    end if
     返す 結果
 おわり 関数
