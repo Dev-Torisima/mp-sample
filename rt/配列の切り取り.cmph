@@ -1,13 +1,23 @@
 //ここでは「文字」型で実装
 関数 配列の切り取り(文字［］ array, 整数 start, 整数 size) ： 文字［］
-    文字［］ 結果 = []
-    もし (size > 0)
-        結果 = 文字［］（size）
-        整数 i = 0
-        ループ(size)
-            結果[i] = array[start + i]
-            i += 1
-        おわり ループ
+    char[] result = []
+    if (len(array) > 0)
+        if (start < 0)
+            start = 0
+        end if
+        
+        if (start + size > 0 & len(array) > 0 & start < len(array))
+            if (start + size < len(array))
+                size = len(array) - start
+            end if
+
+            result = char[](size)
+            num i = 0
+            loop(size)
+                result[i] = array[start + i]
+                i += 1
+            end loop
+        おわり もし
     おわり もし
 
     返す 結果
