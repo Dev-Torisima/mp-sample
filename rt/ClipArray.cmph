@@ -8,7 +8,7 @@ func ClipArray(char[] array, num start, num size) : char[]
         end if
         
         if (start + size > 0 & len(array) > 0 & start < len(array))
-            if (start + size < len(array))
+            if (start + size > len(array))
                 size = len(array) - start
             end if
 
