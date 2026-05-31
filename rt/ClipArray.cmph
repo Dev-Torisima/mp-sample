@@ -2,13 +2,23 @@
 //ここでは「char」型で実装
 func ClipArray(char[] array, num start, num size) : char[]
     char[] result = []
-    if (size > 0)
-        result = char[](size)
-        num i = 0
-        loop(size)
-            result[i] = array[start + i]
-            i += 1
-        end loop
+    if (len(array) > 0)
+        if (start < 0)
+            start = 0
+        end if
+        
+        if (start + size > 0 & len(array) > 0 & start < len(array))
+            if (start + size < len(array))
+                size = len(array) - start
+            end if
+
+            result = char[](size)
+            num i = 0
+            loop(size)
+                result[i] = array[start + i]
+                i += 1
+            end loop
+        end if
     end if
 
     return result
