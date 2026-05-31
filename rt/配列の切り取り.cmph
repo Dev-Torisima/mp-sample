@@ -11,6 +11,10 @@
                 size = len(array) - start
             end if
 
+            if (size < 0)
+                size = 0
+            end if
+
             result = char[](size)
             num i = 0
             loop(size)
