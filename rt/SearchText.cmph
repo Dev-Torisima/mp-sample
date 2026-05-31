@@ -1,0 +1,29 @@
+func SearchText(text s, text v, num i) : num
+    num j
+    num h = -1
+    if (i < 0)
+        i = 0
+    end if
+    loop(len(s) - i)
+        if (s[i] == v[j])
+            j = 0
+            loop(len(v))
+                if (i + j >= len(s))
+                    j = -1
+                    break
+                end if
+                if (s[i + j] != v[j])
+                    j = -1
+                    break
+                end if
+                j += 1
+            end loop
+            if (j != -1)
+                h = i
+                break
+            end if
+        end if
+        i += 1
+    end loop
+    return h
+end func
